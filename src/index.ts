@@ -1,11 +1,12 @@
-import { app } from "./app";
 import dotenv from "dotenv";
+import { app } from "./app";
 import connectDB from "./db";
+import { IUser } from "./models/user.model";
 
 declare global {
     namespace Express {
         export interface Request {
-            // user?: User;
+            user?: IUser;
         }
     }
 }

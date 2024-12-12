@@ -8,3 +8,9 @@ export enum HttpStatus {
     CONFLICT = 409,
     SERVER_ERROR = 500,
 }
+
+export enum TaskStatus {
+    OPEN = "open",
+    IN_PROGRESS = "in_progress",
+    COMPLETED = "completed",
+}

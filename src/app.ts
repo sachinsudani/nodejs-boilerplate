@@ -2,8 +2,9 @@ import cors from "cors";
 import express, { Express } from "express";
 import rateLimit from "express-rate-limit";
 import requestIp from "request-ip";
-import { ApiError } from "./utils/ApiError";
 import { errorHandler } from "./middlewares/error.middleware";
+import authRouter from "./routes/auth/auth.routes";
+import { ApiError } from "./utils/ApiError";
 
 const app: Express = express();
 
@@ -30,6 +31,8 @@ const limiter = rateLimit({
 app.use(limiter);
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
+
+app.use("/api/auth", authRouter);
 
 app.use(errorHandler);
 
