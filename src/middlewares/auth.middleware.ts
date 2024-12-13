@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { HttpStatus } from "../enums";
 import { User } from "../models/user.model";
 import { ApiError } from "../utils/ApiError";
-import { asyncHandler } from "./asyncHandler";
+import { asyncHandler } from "../utils/asyncHandler";
 
 interface JwtPayload {
     id: string;

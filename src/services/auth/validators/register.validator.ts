@@ -13,7 +13,6 @@ const registerSchema = z.object({
         .string()
         .min(8, { message: "Must be at least 8 characters." })
         .trim()
-        .optional(),
 });
 
 export { registerSchema };

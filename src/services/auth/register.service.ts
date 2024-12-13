@@ -1,17 +1,17 @@
 import bcrypt from "bcryptjs";
 import { RequestHandler } from "express";
 import { HttpStatus } from "../../enums";
-import { asyncHandler } from "../../middlewares/asyncHandler";
-import { IUser, User } from "../../models/user.model";
+import { User } from "../../models/user.model";
 import { ApiError } from "../../utils/ApiError";
 import { ApiResponse } from "../../utils/ApiResponse";
+import { asyncHandler } from "../../utils/asyncHandler";
 import { AuthMessage } from "./content";
 import { registerSchema } from "./validators/register.validator";
 
 const register: RequestHandler = asyncHandler(async (req, res, _next) => {
     const payload = registerSchema.parse(req.body);
 
-    const user = await User.findOne({ email: payload.email }).select("_id");
+    const user = await User.findOne({ email: payload.email }, { _id: 1 });
 
     if (user) {
         throw new ApiError(HttpStatus.CONFLICT, AuthMessage.UserAlreadyExists);
@@ -21,10 +21,10 @@ const register: RequestHandler = asyncHandler(async (req, res, _next) => {
     const newUser = new User({ name: payload.name, email: payload.email, password: hashedPassword });
     await newUser.save();
 
-    const { password, ...newUserWithoutPassword } = newUser.toObject();
-    const response = newUserWithoutPassword as IUser;
+    const userWithoutPassword = await User.findById(newUser._id, { password: 0 });
 
-    res.status(201).json(new ApiResponse(HttpStatus.CREATED, response, AuthMessage.RegisterSuccess));
+    res.status(HttpStatus.CREATED).json(new ApiResponse(HttpStatus.CREATED, userWithoutPassword, AuthMessage.RegisterSuccess));
 });
 
 export { register };
+

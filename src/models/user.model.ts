@@ -25,6 +25,7 @@ const UserSchema = new Schema<IUser>(
         password: {
             type: Schema.Types.String,
             required: true,
+            select: false,
         }
     },
     {
