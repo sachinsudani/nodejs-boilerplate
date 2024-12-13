@@ -5,6 +5,7 @@ import requestIp from "request-ip";
 import { errorHandler } from "./middlewares/error.middleware";
 import authRouter from "./routes/auth/auth.routes";
 import { ApiError } from "./utils/ApiError";
+import taskRouter from "./routes/task/task.routes";
 
 const app: Express = express();
 
@@ -33,6 +34,7 @@ app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 
 app.use("/api/auth", authRouter);
+app.use("/api/task", taskRouter);
 
 app.use(errorHandler);
 

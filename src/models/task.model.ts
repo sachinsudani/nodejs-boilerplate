@@ -1,7 +1,7 @@
 import { Document, model, Model, Schema } from "mongoose";
 import { TaskStatus } from "../enums";
 
-const modelName = "task";
+const modelName = "tasks";
 type TaskModel = Model<ITask>;
 
 interface ITask extends Document {
@@ -31,7 +31,7 @@ const TaskSchema = new Schema<ITask>(
         },
         user: {
             type: Schema.Types.ObjectId,
-            ref: "user",
+            ref: "users",
             required: true,
         }
     },

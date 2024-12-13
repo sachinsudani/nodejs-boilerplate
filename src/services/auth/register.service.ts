@@ -21,7 +21,13 @@ const register: RequestHandler = asyncHandler(async (req, res, _next) => {
     const newUser = new User({ name: payload.name, email: payload.email, password: hashedPassword });
     await newUser.save();
 
-    const userWithoutPassword = await User.findById(newUser._id, { password: 0 });
+    const userWithoutPassword = {
+        _id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+        createdAt: newUser.createdAt,
+        updatedAt: newUser.updatedAt,
+    };
 
     res.status(HttpStatus.CREATED).json(new ApiResponse(HttpStatus.CREATED, userWithoutPassword, AuthMessage.RegisterSuccess));
 });

@@ -17,7 +17,7 @@ const authMiddleware: RequestHandler = asyncHandler(async (req, _res, next) => {
     }
 
     try {
-        const decodedToken = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
+        const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string) as JwtPayload;
         const user = await User.findById(decodedToken.id);
 
         if (!user) {
@@ -26,7 +26,7 @@ const authMiddleware: RequestHandler = asyncHandler(async (req, _res, next) => {
         req.user = user;
         next();
     } catch (error) {
-        throw new ApiError(HttpStatus.UNAUTHORIZED, "Unauthorized Request: Invalid token");
+        throw error;
     }
 
 });
